@@ -69,6 +69,10 @@ class ImageProcessingApp:
                                    command=self.apply_selected_filter)
         self.btn_apply.grid(row=0, column=4, padx=5, pady=5)
         
+        # Add save button
+        self.btn_save = ttk.Button(self.button_frame, text="Guardar Imagen", command=self.save_image)
+        self.btn_save.grid(row=0, column=5, padx=5, pady=5)
+        
         # Store original image
         self.original_image = None
         
@@ -130,6 +134,16 @@ class ImageProcessingApp:
                                       self.filter_var.get())
             self.current_image = filtered_img
             self.update_display(filtered_img)
+
+    def save_image(self):
+        """Save the current filtered image"""
+        if self.current_image is not None:
+            file_path = filedialog.asksaveasfilename(
+                defaultextension=".png",
+                filetypes=[("PNG files", "*.png"), ("JPEG files", "*.jpg"), ("All files", "*.*")]
+            )
+            if file_path:
+                cv2.imwrite(file_path, self.current_image)
 
     def update_display(self, img):
         """Update image display and metadata"""
